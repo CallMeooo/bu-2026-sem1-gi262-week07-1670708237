@@ -107,63 +107,52 @@ namespace Assignment
 
         public int[] AS01_FindFirstAndLastElementOfArray(int[] array, int target)
         {
-            int first = -1;
-            int last = -1;
+            int firstIndex = -1;
+            int lastIndex = -1;
 
             for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] == target)
                 {
-                    if (first == -1)
+                    if (firstIndex == -1)
                     {
-                        first = i;
+                        firstIndex = i;
                     }
-
-                    last = i;
+                    lastIndex = i;
                 }
             }
 
-            if (first == -1)
+            if (firstIndex == -1)
             {
                 return new int[] { -1 };
             }
 
-            return new int[] { first, last };
+            return new int[] { firstIndex, lastIndex };
         }
 
         public int AS02_FindMaxLessThan(int[] array, int target)
         {
-            int maxLess = 0;
+            int maxVal = -1;
             bool found = false;
 
             for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] < target)
                 {
-                    if (!found || array[i] > maxLess)
+                    if (!found || array[i] > maxVal)
                     {
-                        maxLess = array[i];
+                        maxVal = array[i];
                         found = true;
                     }
                 }
             }
 
-            if (!found)
-            {
-                return -1;
-            }
-
-            return maxLess;
+            return found ? maxVal : -1;
         }
 
         public int[] AS03_FindRange(int[] array, int min, int max)
         {
             List<int> result = new List<int>();
-
-            if (min > max)
-            {
-                return new int[0];
-            }
 
             for (int i = 0; i < array.Length; i++)
             {
@@ -183,18 +172,17 @@ namespace Assignment
         public int[] EX01_FindTargetEnemies(int[] enemyHPs, int mana)
         {
             int[] sortedHPs = (int[])enemyHPs.Clone();
-
             Array.Sort(sortedHPs);
 
-            List<int> result = new List<int>();
-            int totalMana = 0;
+            List<int> defeatedEnemies = new List<int>();
+            int currentManaUsed = 0;
 
             for (int i = 0; i < sortedHPs.Length; i++)
             {
-                if (totalMana + sortedHPs[i] <= mana)
+                if (currentManaUsed + sortedHPs[i] <= mana)
                 {
-                    totalMana += sortedHPs[i];
-                    result.Add(sortedHPs[i]);
+                    defeatedEnemies.Add(sortedHPs[i]);
+                    currentManaUsed += sortedHPs[i];
                 }
                 else
                 {
@@ -202,7 +190,7 @@ namespace Assignment
                 }
             }
 
-            return result.ToArray();
+            return defeatedEnemies.ToArray();
         }
 
         #endregion
